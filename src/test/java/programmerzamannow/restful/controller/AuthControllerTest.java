@@ -13,6 +13,8 @@ import programmerzamannow.restful.entity.User;
 import programmerzamannow.restful.model.LoginUserRequest;
 import programmerzamannow.restful.model.TokenResponse;
 import programmerzamannow.restful.model.WebResponse;
+import programmerzamannow.restful.repository.AddressRepository;
+import programmerzamannow.restful.repository.ContactRepository;
 import programmerzamannow.restful.repository.UserRepository;
 import programmerzamannow.restful.security.BCrypt;
 
@@ -33,10 +35,18 @@ class AuthControllerTest {
     private UserRepository userRepository;
 
     @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private ContactRepository contactRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
+        addressRepository.deleteAll();
+        contactRepository.deleteAll();
         userRepository.deleteAll();
     }
 

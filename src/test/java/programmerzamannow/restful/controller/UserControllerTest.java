@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import programmerzamannow.restful.entity.User;
 import programmerzamannow.restful.model.*;
+import programmerzamannow.restful.repository.AddressRepository;
+import programmerzamannow.restful.repository.ContactRepository;
 import programmerzamannow.restful.repository.UserRepository;
 import programmerzamannow.restful.security.BCrypt;
 
@@ -28,6 +30,12 @@ class UserControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
+    private ContactRepository contactRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -35,6 +43,8 @@ class UserControllerTest {
 
     @BeforeEach
     void setUp() {
+        addressRepository.deleteAll();
+        contactRepository.deleteAll();
         userRepository.deleteAll();
     }
 

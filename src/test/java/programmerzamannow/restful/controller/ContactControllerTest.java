@@ -15,6 +15,7 @@ import programmerzamannow.restful.model.ContactResponse;
 import programmerzamannow.restful.model.CreateContactRequest;
 import programmerzamannow.restful.model.UpdateContactRequest;
 import programmerzamannow.restful.model.WebResponse;
+import programmerzamannow.restful.repository.AddressRepository;
 import programmerzamannow.restful.repository.ContactRepository;
 import programmerzamannow.restful.repository.UserRepository;
 import programmerzamannow.restful.security.BCrypt;
@@ -44,8 +45,12 @@ class ContactControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     @BeforeEach
     void setUp() {
+        addressRepository.deleteAll();
         contactRepository.deleteAll();
         userRepository.deleteAll();
 
