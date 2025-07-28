@@ -1,5 +1,7 @@
 package programmerzamannow.restful.controller;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,18 @@ public class ErrorController {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<WebResponse<String>> constraintViolationException(ConstraintViolationException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(WebResponse.<String>builder().errors(exception.getMessage()).build());
+    }
+
+    @ExceptionHandler(JWTDecodeException.class)
+    public ResponseEntity<WebResponse<String>> jwtDecodedException(JWTDecodeException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(WebResponse.<String>builder().errors(exception.getMessage()).build());
+    }
+
+    @ExceptionHandler(SignatureVerificationException.class)
+    public ResponseEntity<WebResponse<String>> signatureVerificationException(SignatureVerificationException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(WebResponse.<String>builder().errors(exception.getMessage()).build());
     }
 

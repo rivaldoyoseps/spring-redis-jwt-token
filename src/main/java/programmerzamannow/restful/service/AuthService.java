@@ -22,6 +22,9 @@ public class AuthService {
     @Autowired
     private ValidationService validationService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Transactional
     public TokenResponse login(LoginUserRequest request) {
         validationService.validate(request);
@@ -30,19 +33,22 @@ public class AuthService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password wrong"));
 
         if (BCrypt.checkpw(request.getPassword(), user.getPassword())) {
-            user.setToken(UUID.randomUUID().toString());
-            user.setTokenExpiredAt(next30Days());
-            userRepository.save(user);
+//            user.setToken(UUID.randomUUID().toString());
+//            user.setTokenExpiredAt(next30Days());
+//            userRepository.save(user);
+
+            String token = tokenService.create(user);
 
             return TokenResponse.builder()
-                    .token(user.getToken())
-                    .expiredAt(user.getTokenExpiredAt())
+                    .token(token)
+//                    .expiredAt(user.getTokenExpiredAt())
                     .build();
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password wrong");
         }
     }
 
+    // dipakai kalau simpan token di database
     private Long next30Days() {
         return System.currentTimeMillis() + (1000L * 60 * 60 * 24 * 30);
     }
