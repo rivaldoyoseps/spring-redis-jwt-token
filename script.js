@@ -24,7 +24,7 @@ export default function () {
     // Mendefinisikan header untuk permintaan
     const params = {
         headers: {
-            'X-API-TOKEN': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inlvc2VwIiwibmFtZSI6Inlvc2VwIiwiZXhwIjoxNzU2Mjg3NTU0fQ.qQtyJaQ9AlomVgnQP9z_CduZ6MdzSbxUO8pmglyHa3o',
+            'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ5b3NlcCIsImlhdCI6MTc1MzcwMjU4NywiZXhwIjoxNzUzNzMxMzg3fQ.jeqNGmFiPEVhh3myOvxMZJBBKAi_S8ZEaRvxbs_hhsA',
         },
     };
 

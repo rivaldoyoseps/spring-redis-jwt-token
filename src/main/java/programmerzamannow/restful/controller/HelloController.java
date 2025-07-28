@@ -8,6 +8,6 @@ import programmerzamannow.restful.entity.User;
 public class HelloController {
     @GetMapping("/api/hello")
     public String hello(User user){
-        return "Hello " + user.getName();
+        return "Hello " + user.getUsername();
     }
 }

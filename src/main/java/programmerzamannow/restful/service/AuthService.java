@@ -11,7 +11,6 @@ import programmerzamannow.restful.model.TokenResponse;
 import programmerzamannow.restful.repository.UserRepository;
 import programmerzamannow.restful.security.BCrypt;
 
-import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -33,31 +32,22 @@ public class AuthService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password wrong"));
 
         if (BCrypt.checkpw(request.getPassword(), user.getPassword())) {
-//            user.setToken(UUID.randomUUID().toString());
-//            user.setTokenExpiredAt(next30Days());
-//            userRepository.save(user);
 
-            String token = tokenService.create(user);
+            String accessToken = tokenService.createAccessToken(user.getUsername());
+            String refreshToken = tokenService.createRefreshToken(user.getUsername());
 
             return TokenResponse.builder()
-                    .token(token)
-//                    .expiredAt(user.getTokenExpiredAt())
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
                     .build();
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password wrong");
         }
     }
 
-    // dipakai kalau simpan token di database
-    private Long next30Days() {
-        return System.currentTimeMillis() + (1000L * 60 * 60 * 24 * 30);
-    }
 
     @Transactional
     public void logout(User user) {
-        user.setToken(null);
-        user.setTokenExpiredAt(null);
-
-        userRepository.save(user);
+        tokenService.invalidateTokens(user.getUsername());
     }
 }

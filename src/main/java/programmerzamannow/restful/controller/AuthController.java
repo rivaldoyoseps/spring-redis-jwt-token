@@ -8,15 +8,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import programmerzamannow.restful.entity.User;
 import programmerzamannow.restful.model.LoginUserRequest;
+import programmerzamannow.restful.model.RefreshTokenRequest;
 import programmerzamannow.restful.model.TokenResponse;
 import programmerzamannow.restful.model.WebResponse;
 import programmerzamannow.restful.service.AuthService;
+import programmerzamannow.restful.service.TokenService;
+
+import java.util.Map;
 
 @RestController
 public class AuthController {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping(
             path = "/api/auth/login",
@@ -35,5 +42,11 @@ public class AuthController {
     public WebResponse<String> logout(User user) {
         authService.logout(user);
         return WebResponse.<String>builder().data("OK").build();
+    }
+
+    @PostMapping("/refresh")
+    public TokenResponse refreshToken(@RequestBody Map<String, String> request) {
+        String refreshToken = request.get("refresh_token");
+        return tokenService.refreshAccessToken(refreshToken);
     }
 }

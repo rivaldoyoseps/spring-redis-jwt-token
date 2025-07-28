@@ -12,15 +12,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.server.ResponseStatusException;
 import programmerzamannow.restful.entity.User;
-import programmerzamannow.restful.repository.UserRepository;
 import programmerzamannow.restful.service.TokenService;
 
 @Component
 @Slf4j
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private TokenService tokenService;
@@ -33,21 +29,15 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest servletRequest = (HttpServletRequest) webRequest.getNativeRequest();
-        String token = servletRequest.getHeader("X-API-TOKEN");
-        log.info("TOKEN {}", token);
-        if (token == null) {
+
+        String authHeader = servletRequest.getHeader("Authorization");
+        if (authHeader == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
         }
 
-        User user = tokenService.fromToken(token);
-//        User user = userRepository.findFirstByToken(token)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized"));
+        String token = authHeader.substring(7);
 
-        log.info("USER {}", user);
-//        if (user.getTokenExpiredAt() < System.currentTimeMillis()) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
-//        }
+        return tokenService.fromToken(token);
 
-        return user;
     }
 }
