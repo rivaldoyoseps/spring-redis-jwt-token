@@ -24,7 +24,7 @@ export default function () {
     // Mendefinisikan header untuk permintaan
     const params = {
         headers: {
-            'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ5b3NlcCIsImlhdCI6MTc1MzcwMjU4NywiZXhwIjoxNzUzNzMxMzg3fQ.jeqNGmFiPEVhh3myOvxMZJBBKAi_S8ZEaRvxbs_hhsA',
+            'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ5b3NlcCIsImlhdCI6MTc1MzcwNDUxNCwiZXhwIjoxNzUzNzMzMzE0fQ.lzmkZltsNy9CgnZgARtkxs5EQDkctrlQU5rgGM1kQxw',
         },
     };
 
